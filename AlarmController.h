@@ -6,13 +6,19 @@
 #include <StandardCplusplus.h>
 #include <vector>
 
-typedef std::vector<struct Alarm> Alarm_vector;
+using namespace std;
+
+typedef vector<struct Alarm> Alarm_vector;
 
 struct Alarm {
 
-public:
-	Alarm(unsigned int pin);
-	Alarm pattern(void);
+	public:
+		Alarm(unsigned int pin) {this->_pin = pin;};
+		Alarm &pattern(void) {return *this;};
+		unsigned int *getPin(void) {return &this->_pin;}
+
+	private:
+		unsigned int _pin;
 
 };
 
@@ -20,7 +26,9 @@ class AlarmController {
 
 	public:
 		AlarmController(Relay *relay);
-		AlarmController &addAlarm(Alarm alarm);
+		Alarm &addAlarm(Alarm alarm);
+		bool removeAlarm(Alarm *alarm);
+		unsigned int getAlarmSize(void);
 
 	private:
 		Relay *_relay;
