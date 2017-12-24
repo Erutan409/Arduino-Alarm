@@ -1,30 +1,41 @@
 #include <AlarmController.h>
 
-AlarmController::AlarmController(Relay *relay) {
+Alarm::Alarm(Relay *relay, unsigned int relayPin) {
 	this->_relay = relay;
+	this->_relayNum = (*this->_relay).getRelayByPin(relayPin);
 }
 
-Alarm &AlarmController::addAlarm(Alarm alarm) {
-	this->_alarms.push_back(alarm);
+unsigned long *Alarm::activate(void) {
+	(*this->_relay).on(this->_relayNum).commit();
+	this->_setLastActionMillis();
 
-	return this->_alarms.back();
+	return this->lastMillis();
 }
 
-bool AlarmController::removeAlarm(Alarm *alarm) {
-	Alarm_vector *alarms = &this->_alarms;
+unsigned long *Alarm::deactivate(void) {
+	(*this->_relay).off(this->_relayNum).commit();
+	this->_setLastActionMillis();
 
-	for (int i = 0; i < (*alarms).size(); i++) {
-		Alarm *current = &(*alarms).at(i);
+	return this->lastMillis();
+}
 
-		if (alarm == current) {
-			(*alarms).erase((*alarms).begin() + i);
-			return true;
-		}
+unsigned long *Alarm::toggle(void) {
+	if (this->state()) {
+		return this->deactivate();
 	}
-	
-	return false;
+	else {
+		return this->activate();
+	}
 }
 
-unsigned int AlarmController::getAlarmSize(void) {
-	return this->_alarms.size();
+unsigned long *Alarm::lastMillis(void) {
+	return &this->_lastActionMillis;
+}
+
+bool Alarm::state(void) {
+	return *(*this->_relay).getState(this->_relayNum) == RELAY_ON;
+}
+
+void Alarm::_setLastActionMillis(void) {
+	this->_lastActionMillis = millis();
 }
