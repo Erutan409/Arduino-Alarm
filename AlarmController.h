@@ -8,10 +8,10 @@ class Alarm {
 
 	public:
 		Alarm(Relay *relay, unsigned int relayPin);
-		unsigned long *activate(void);
+		uint32_t *activate(void);
 		unsigned long *deactivate(void);
 		unsigned long *toggle(void);
-		unsigned long *lastMillis(void);
+		uint32_t *lastMillis(void);
 		bool state(void);
 
 	private:
