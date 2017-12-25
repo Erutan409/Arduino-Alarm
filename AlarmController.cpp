@@ -28,7 +28,7 @@ unsigned long *Alarm::toggle(void) {
 	}
 }
 
-uint32_t *Alarm::lastMillis(void) {
+unsigned long *Alarm::lastMillis(void) {
 	return &this->_lastActionMillis;
 }
 
