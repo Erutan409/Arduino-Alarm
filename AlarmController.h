@@ -7,17 +7,17 @@
 class Alarm {
 
 	public:
-		Alarm(Relay *relay, unsigned int relayPin);
-		unsigned long *activate(void);
-		unsigned long *deactivate(void);
-		unsigned long *toggle(void);
-		unsigned long *lastMillis(void);
+		Alarm(Relay *relay, uint8_t relayPin);
+		uint32_t *activate(void);
+		uint32_t *deactivate(void);
+		uint32_t *toggle(void);
+		uint32_t *lastMillis(void);
 		bool state(void);
 
 	private:
 		Relay *_relay;
-		unsigned int _relayNum;
-		unsigned long _lastActionMillis;
+		int8_t _relayNum;
+		uint32_t _lastActionMillis;
 
 		void _setLastActionMillis(void);
 

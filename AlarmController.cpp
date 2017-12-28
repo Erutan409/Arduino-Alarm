@@ -1,25 +1,25 @@
 #include <AlarmController.h>
 
-Alarm::Alarm(Relay *relay, unsigned int relayPin) {
+Alarm::Alarm(Relay *relay, uint8_t relayPin) {
 	this->_relay = relay;
 	this->_relayNum = (*this->_relay).getRelayByPin(relayPin);
 }
 
-unsigned long *Alarm::activate(void) {
+uint32_t *Alarm::activate(void) {
 	(*this->_relay).on(this->_relayNum).commit();
 	this->_setLastActionMillis();
 
 	return this->lastMillis();
 }
 
-unsigned long *Alarm::deactivate(void) {
+uint32_t *Alarm::deactivate(void) {
 	(*this->_relay).off(this->_relayNum).commit();
 	this->_setLastActionMillis();
 
 	return this->lastMillis();
 }
 
-unsigned long *Alarm::toggle(void) {
+uint32_t *Alarm::toggle(void) {
 	if (this->state()) {
 		return this->deactivate();
 	}
@@ -28,7 +28,7 @@ unsigned long *Alarm::toggle(void) {
 	}
 }
 
-unsigned long *Alarm::lastMillis(void) {
+uint32_t *Alarm::lastMillis(void) {
 	return &this->_lastActionMillis;
 }
 
